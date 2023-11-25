@@ -40,6 +40,9 @@ def check_trip_length(state):
     
     elif trip_durr >=7:
         return f"Please split up the trip by weeks in order to make sure that a more accurate answer if given"
+
+    else:
+      return
    
 
 
