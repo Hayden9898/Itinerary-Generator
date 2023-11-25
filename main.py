@@ -76,11 +76,31 @@ def submit_scenario(state):
 
 #Markdown representation of the UI
 
-page = """
+section_1 = """ 
+<center>WIZEWAY</center>
+================
+"""
+section_2 = """
 
-Where are you going?  <|{Destination}|input|>
+<center>###Let's start find some fun activities for your trip!!</center>
 
-Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|>
+<|layout|columns = 1 3|
+
+<|
+<center> Where do you plan on going? </center> </br>
+<center<|{Destination}|input|></center>
+|>
+
+<|
+<center>
+Planning on bringing pets: 
+<center></br>
+</center>
+<|{bool_pets}|toggle|lov=Yes;No|>
+</center>
+|>|>"""
+
+section_3 = """
 
 Travellers over 18: <|{num_adults}|number|>
 
@@ -96,6 +116,7 @@ Message: <|{message}|text|>
 
 
 """
+Gui(page = section_1+section_2+section_3).run(dark_mode=True)
 Destination = "italy"
 message = None
 start_date = datetime.now()
