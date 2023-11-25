@@ -15,18 +15,18 @@ client = OpenAI(api_key=Our_key,
                 organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
 
 
-def stream(message: str, model: str):
-  stream = client.chat.completions.create(
-    model=model,
-    messages = [
-      {"role": "system", "content": "You are an AI assistant. You will answer questions, and you are an expert writer."},
-      {"role": "user", "content": message},
-    ],
-    stream=True,
-  )
-  for part in stream:
-    print(part.choices[0].delta.content or "", end="")
+def prompt(message: str, model: str):
 
+    completion = client.chat.completions.create(
+    model=model,
+    messages=[
+        {"role": "system", "content": "You are an AI Itinerary planner assistant. You will plan itineraries based on input given to you, and you scan the latest events/attractions for the itinerary."},
+        {"role": "user", "content": message}
+    ]
+    )
+    print(completion.choices[0].message.content)
+
+    
 
 ###################
     #Definitions#
@@ -59,6 +59,13 @@ scenario_cfg = Config.configure_scenario("scenario", task_configs=[build_msg_tas
 def get_days(state):
     return state.calc_trip_length(state.start_date, state.end_date)
 
+def gptPromptCreation():
+
+    return f"Create an itinerary for a trip to {Destination} for 2 days.\
+          There are {num_adults} adults and {num_kids} children going. Along with places to eat, and good photo taking opportunities. 
+          Please include times of day in the itinerary. Please include the links to any relevant info (like restaurants) in the response. "
+
+
 def submit_scenario(state):
     
     state.scenario.test_info.write(get_days(state))
@@ -73,7 +80,7 @@ page = """
 
 Where are you going?  <|{Destination}|input|>
 
-Planning on bringing pets: <|{bool_pets}|toggle|lov=Item 1;Item 2;Item 3|>
+Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|>
 
 Travellers over 18: <|{num_adults}|number|>
 
@@ -89,16 +96,16 @@ Message: <|{message}|text|>
 
 
 """
-Destination = None
+Destination = "italy"
 message = None
 start_date = datetime.now()
 end_date = datetime.now()
-num_adults=0
-num_kids=0
-bool_pets=False
+num_adults=2
+num_kids=2
+bool_pets=None
 
+prompt(message=gptPromptCreation(),model="gpt-4-1106-preview" )
 
-stream(message="", model="gpt-4-1106-preview")
 
 if __name__ == "__main__":
     tp.Core().run()
