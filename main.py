@@ -115,8 +115,8 @@ def submit_scenario(state):
 
 def gptPromptCreation():
 
-    return f"Create an itinerary for a trip to {Destination} for {calc_trip_length(start_date, end_date)} days.\
-          There are {num_adults} adults and {num_kids} children going. Along with places to eat, and good photo taking opportunities."
+    return f"Create an itinerary for a trip to {state.Destination} for {calc_trip_length(state.start_date, state.end_date)} days.\
+          There are {state.num_adults} adults and {state.num_kids} children going. Along with places to eat, and good photo taking opportunities."
 
 #Markdown representation of the UI
 
