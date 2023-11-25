@@ -1,28 +1,6 @@
 import taipy as tp
 from taipy import Gui, Config, Core
 from datetime import datetime
-from openai import OpenAI
-import os
-
-#ChatGpt initialization
-
-
-client = OpenAI(api_key=os.environ.get('API_Key'),
-                organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
-
-    
-def stream(message: str, model: str):
-  stream = client.chat.completions.create(
-    model=model,
-    messages = [
-      {"role": "system", "content": "You are an AI assistant. You will answer questions, and you are an expert writer."},
-      {"role": "user", "content": message},
-    ],
-    stream=True,
-  )
-  for part in stream:
-    print(part.choices[0].delta.content or "", end="")
-
 
 ###################
     #Definitions#
@@ -52,18 +30,17 @@ message_data_node_cfg = Config.configure_data_node(id="message")
 build_msg_task_cfg = Config.configure_task("build_msg", build_message, input_test_info_data_node_cfg, message_data_node_cfg)
 scenario_cfg = Config.configure_scenario("scenario", task_configs=[build_msg_task_cfg])
 
-def get_days(state):
-    return state.calc_trip_length(state.start_date, state.end_date)
 
 def submit_scenario(state):
     
-    state.scenario.test_info.write(get_days(state))
+    state.scenario.test_info.write(state.calc_trip_length(state.start_date, state.end_date))
 
     state.scenario.submit(wait=True)
 
     state.message = scenario.message.read()
 
 #Markdown representation of the UI
+
 
 page = """
 
@@ -79,23 +56,24 @@ Trip start date: <|{start_date}|date|>
 
 Trip end date: <|{end_date}|date|>
 
+Do you have any special interests? <|{interest}|input|>
+
 <|submit|button|on_action=submit_scenario|>
 
 Message: <|{message}|text|>
 
 
 """
+
+
 Destination = "ajit is sexy"
 message = None
 start_date = datetime.now()
 end_date = datetime.now()
 
 
-stream(message="5 words randomly go", model="gpt-4-1106-preview")
-
 if __name__ == "__main__":
+    
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
     tp.Gui(page).run(dark_mode=True)
-
-print("hello")
