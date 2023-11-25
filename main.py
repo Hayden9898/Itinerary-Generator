@@ -133,8 +133,6 @@ page = """
 
 Where are you going?  <|{Destination}|input|>
 
-Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|>
-
 Travellers over 18: <|{num_adults}|number|> 
 
 Travellers under 18: <|{num_kids}|number|>
