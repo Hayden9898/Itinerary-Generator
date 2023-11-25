@@ -12,7 +12,7 @@ def calc_trip_length(start_date, end_date):
     return timediff.days
 
 def check_trip_length(trip_dur):
-    if trip_dur <= 0 or trip_dur>30:
+    if trip_dur < 0 or trip_dur > 30:
         return -1
     
     elif trip_dur >=7:
@@ -23,7 +23,7 @@ def check_trip_length(trip_dur):
 
 
 def build_message(test_info: str):
-    return f"{test_info}!"
+    return f"Your trip is {test_info} days long!"
 
 input_test_info_data_node_cfg = Config.configure_data_node(id="test_info")
 message_data_node_cfg = Config.configure_data_node(id="message")
@@ -33,13 +33,14 @@ scenario_cfg = Config.configure_scenario("scenario", task_configs=[build_msg_tas
 
 def submit_scenario(state):
     
-    state.scenario.test_info.write(state.Destination)
+    state.scenario.test_info.write(state.calc_trip_length(state.start_date, state.end_date))
 
     state.scenario.submit(wait=True)
 
     state.message = scenario.message.read()
 
 #Markdown representation of the UI
+
 page = """
 
 Where are you going?  <|{Destination}|input|>
@@ -62,6 +63,8 @@ Message: <|{message}|text|>
 """
 Destination = "ajit is sexy"
 message = None
+start_date = 10/10/23
+end_date = 10/12/23
 
 
 
