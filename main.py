@@ -80,11 +80,32 @@ def on_action(state, id):
 
 #Markdown representation of the UI
 
-page = """
 
-Where are you going?  <|{Destination}|input|>
+section_1 = """ 
+<center>WIZEWAY</center>
+================
+"""
+section_2 = """
 
-Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|>
+<center>###Let's start find some fun activities for your trip!!</center>
+
+<|layout|columns =1 5|
+<|
+
+<center> ###Where do you plan on going? </center> </br>
+<center<|{Destination}|input|></center>
+|>
+
+<|
+<center>
+Planning on bringing pets: 
+<center></br>
+</center>
+<|{bool_pets}|toggle|lov=Yes;No|>
+</center>
+|>|>"""
+
+section_3 = """
 
 Travellers over 18: <|{num_adults}|number|>
 
@@ -100,6 +121,8 @@ Message: <|{message}|text|>
 
 
 """
+Gui(page = section_1+section_2+section_3).run(dark_mode=True)
+
 ###Test Information, can be changed
 
 Destination = None
