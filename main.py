@@ -26,20 +26,22 @@ def stream(message: str, model: str):
     #Definitions#
 ###################
 
-def calc_trip_length(start_date, end_date):
+def calc_trip_length(state):
     
-    timediff = end_date - start_date
+    timediff = state.end_date - state.start_date
     return timediff.days
 
-def check_trip_length(trip_dur):
-    if trip_dur < 0 or trip_dur > 30:
-        return -1
+def check_trip_length(state):
     
-    elif trip_dur >=7:
-        return 1
+    trip_durr = calc_trip_length(state.start_date, state.end_date)
     
-    else:
-        return 2
+    if trip_durr < 0 or trip_durr > 30:
+        return f"Please make sure that the trips End Date is not before the End Date!!\nAlso Please Restrict the trip timeline to a month."
+    
+    elif trip_durr >=7:
+        return f"Please split up the trip by weeks in order to make sure that a more accurate answer if given"
+   
+
 
 
 def build_message(test_info: str):
@@ -113,9 +115,14 @@ def submit_scenario(state):
     state.message = scenario.message.read()
 
 
-def gptPromptCreation():
+def gptPromptCreation(state):
+  verify_num_adults(state.num_adults)
+  verify_num_kids(state.num_kids)
+  check_trip_length(state.start_date, state.end_date)
+  
 
-    return f"Create an itinerary for a trip to {state.Destination} for {calc_trip_length(state.start_date, state.end_date)} days.\
+  
+  return f"Create an itinerary for a trip to {state.Destination} for {calc_trip_length(state.start_date, state.end_date)} days.\
           There are {state.num_adults} adults and {state.num_kids} children going. Along with places to eat, and good photo taking opportunities."
 
 #Markdown representation of the UI
