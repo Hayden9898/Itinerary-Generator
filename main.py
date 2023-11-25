@@ -2,16 +2,11 @@ import taipy as tp
 from taipy import Gui, Config, Core
 from datetime import datetime
 from openai import OpenAI
-import os
-from dotenv import load_dotenv, dotenv_values
-
-load_dotenv()
 
 #ChatGpt initialization
 
-Our_key =os.getenv('OPENAI_API_KEY')
 
-client = OpenAI(api_key=Our_key,
+client = OpenAI(api_key="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",
                 organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
 
 
@@ -67,7 +62,14 @@ def submit_scenario(state):
 
     state.message = scenario.message.read()
 
+
+def gptPromptCreation():
+
+    return f"Create an itinerary for a trip to {Destination} for {calc_trip_length(start_date, end_date)} days.\
+          There are {num_adults} adults and {num_kids} children going. Along with places to eat, and good photo taking opportunities."
+
 #Markdown representation of the UI
+
 
 page = """
 
@@ -77,7 +79,7 @@ Planning on bringing pets: <|{bool_pets}|toggle|lov=Item 1;Item 2;Item 3|>
 
 Travellers over 18: <|{num_adults}|number|>
 
-Travellers under 18: <|{num_adults}|number|>
+Travellers under 18: <|{num_kids}|number|>
 
 Trip start date: <|{start_date}|date|>
 
@@ -93,13 +95,13 @@ Destination = "ajit is sexy"
 message = None
 start_date = datetime.now()
 end_date = datetime.now()
+num_adults = 0
+num_kids = 0 
 
 
-stream(message="5 words randomly go", model="gpt-4-1106-preview")
+stream(message="", model="gpt-4-1106-preview")
 
 if __name__ == "__main__":
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
     tp.Gui(page).run(dark_mode=True)
-
-print("hello")
