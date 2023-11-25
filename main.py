@@ -1,10 +1,16 @@
 import taipy as tp
 from taipy import Gui, Config, Core
 from datetime import datetime
+from taipy.gui import State, invoke_long_callback, notify
 
 ###################
     #Definitions#
 ###################
+
+template = ("Trip Length:\nLocation:\nDay 1:\n(Activity Name)" + 
+    "\n(Activity Location and Time)\n(Activity Description)\n\n" +
+"(Activity Name)\n(Activity Location and Time)\n(Activity Description)\n\n" +
+".\n.\n.\n.\n\n" + "Day x:\n(Activity Name)\n(Activity Location)\n(Activity Description)")
 
 def calc_trip_length(start_date, end_date):
     
@@ -39,6 +45,10 @@ def submit_scenario(state):
 
     state.message = scenario.message.read()
 
+def on_action(state, id):
+    notify(state, "info", "Heavy task started...")
+    invoke_long_callback(state, submit_scenario(state), [state])
+
 #Markdown representation of the UI
 
 
@@ -56,7 +66,7 @@ Trip start date: <|{start_date}|date|>
 
 Trip end date: <|{end_date}|date|>
 
-Do you have any special interests? <|{interest}|input|>
+Do you have any special interests? <|{interests}|input|>
 
 <|submit|button|on_action=submit_scenario|>
 
@@ -66,7 +76,7 @@ Message: <|{message}|text|>
 """
 
 
-Destination = "ajit is sexy"
+Destination = None
 message = None
 start_date = datetime.now()
 end_date = datetime.now()
