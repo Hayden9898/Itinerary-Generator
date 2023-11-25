@@ -59,7 +59,7 @@ def get_num_Adults(state):
 def get_num_Kids(state):
     return state.num_kids
 
-def verify_num_adults(num_adults):
+def verify_num_adults(state):
     # Initialize the verification flag to False
     verification = False
 
@@ -67,13 +67,13 @@ def verify_num_adults(num_adults):
     while not verification:
         try:
             # Attempt to convert the input to a float
-            num_adults = float(num_adults)
+            state.num_adults = float(state.num_adults)
 
             # Check if the input is a non-negative number
-            if num_adults >= 0:
+            if state.num_adults >= 0:
                 # If valid, set verification to True and return the number of adults
                 verification = True
-                return num_adults
+                return state.num_adults
             else:
                 # If not valid, return an error message
                 return "Please enter a non-negative number"
@@ -81,7 +81,7 @@ def verify_num_adults(num_adults):
             # If the conversion to float fails, return an error message
             return "Please enter a number"
 
-def verify_num_kids(num_kids):
+def verify_num_kids(state):
     # Initialize the verification flag to False
     verification = False
 
@@ -89,13 +89,13 @@ def verify_num_kids(num_kids):
     while not verification:
         try:
             # Attempt to convert the input to a float
-            num_kids = float(num_kids)
+            state.num_kids = float(state.num_kids)
 
             # Check if the input is a non-negative number
-            if num_kids >= 0:
+            if state.num_kids >= 0:
                 # If valid, set verification to True and return the number of kids
                 verification = True
-                return num_kids
+                return state.num_kids
             else:
                 # If not valid, return an error message
                 return "Please enter a non-negative number"
