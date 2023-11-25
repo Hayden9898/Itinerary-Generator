@@ -97,3 +97,5 @@ if __name__ == "__main__":
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
     tp.Gui(page).run(dark_mode=True)
+
+print("hello")
