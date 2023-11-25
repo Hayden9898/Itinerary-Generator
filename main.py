@@ -80,7 +80,6 @@ def on_action(state, id):
 
 #Markdown representation of the UI
 
-
 section_1 = """ 
 <center>WIZEWAY</center>
 ================
@@ -90,17 +89,26 @@ section_2 = """
 <center>###Let's start find some fun activities for your trip!!</center>
 
 <|layout|columns =1 5|
+
 <|
 
-<center> ###Where do you plan on going? </center> </br>
-<center<|{Destination}|input|></center>
+<center> 
+###Where do you plan on going? 
+</center> 
+</br>
+
+<center>
+<|{Destination}|input|>
+</center>
+
 |>
 
 <|
 <center>
 Planning on bringing pets: 
-<center></br>
 </center>
+
+</br>
 <|{bool_pets}|toggle|lov=Yes;No|>
 </center>
 |>|>"""
