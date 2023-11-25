@@ -6,8 +6,7 @@ from openai import OpenAI
 #ChatGpt initialization
 
 
-client = OpenAI(api_key="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",
-                organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
+
 
 
 def stream(message: str, model: str):
