@@ -24,9 +24,9 @@ def prompt(message: str, model: str):
         {"role": "user", "content": message}
     ]
     )
-    print(completion.choices[0].message.content)
+    return (completion.choices[0].message.content)
 
-    
+
 
 ###################
     #Definitions#
@@ -49,7 +49,7 @@ def check_trip_length(trip_dur):
 
 
 def build_message(test_info: str):
-    return f"Your trip is {test_info} days long!"
+    return f"{test_info}"
 
 input_test_info_data_node_cfg = Config.configure_data_node(id="test_info")
 message_data_node_cfg = Config.configure_data_node(id="message")
@@ -61,14 +61,14 @@ def get_days(state):
 
 def gptPromptCreation():
 
-    return f"Create an itinerary for a trip to {Destination} for 2 days.\
-          There are {num_adults} adults and {num_kids} children going. Along with places to eat, and good photo taking opportunities. 
-          Please include times of day in the itinerary. Please include the links to any relevant info (like restaurants) in the response. "
+    return f"Create an itinerary for a trip to {Destination} for 1 days.\
+          There are {num_adults} adults and {num_kids} children going. Along with places to eat, and good photo taking opportunities. \
+          Please include times of day in the itinerary. Please include the hyperlinks to any relevant info (like restaurants) in the response. Do this in 100 words. "
 
 
 def submit_scenario(state):
     
-    state.scenario.test_info.write(get_days(state))
+    state.scenario.test_info.write(prompt(message=gptPromptCreation(),model="gpt-4-1106-preview"))
 
     state.scenario.submit(wait=True)
 
@@ -96,6 +96,8 @@ Message: <|{message}|text|>
 
 
 """
+###Test Information, can be changed
+
 Destination = "italy"
 message = None
 start_date = datetime.now()
@@ -103,8 +105,6 @@ end_date = datetime.now()
 num_adults=2
 num_kids=2
 bool_pets=None
-
-prompt(message=gptPromptCreation(),model="gpt-4-1106-preview" )
 
 
 if __name__ == "__main__":
