@@ -81,37 +81,40 @@ def on_action(state, id):
 #Markdown representation of the UI
 
 section_1 = """ 
-<center>WIZEWAY</center>
+<center>
+WIZEWAY
 ================
+</center>
 """
+
 section_2 = """
 
-<center>###Let's start find some fun activities for your trip!!</center>
+<center>
+###Let's start find some fun activities for your trip!!
+</center>
 
-<|layout|columns =1 5|
-
+<|layout|columns=1 3|
 <|
-
-<center> 
 ###Where do you plan on going? 
-</center> 
-</br>
+<br/>
 
 <center>
 <|{Destination}|input|>
 </center>
-
 |>
 
 <|
 <center>
-Planning on bringing pets: 
+Planning on bringing pets? 
 </center>
+<br/>
 
-</br>
+<center>
 <|{bool_pets}|toggle|lov=Yes;No|>
 </center>
-|>|>"""
+|>
+|>
+"""
 
 section_3 = """
 
@@ -130,7 +133,6 @@ Message: <|{message}|text|>
 
 """
 Gui(page = section_1+section_2+section_3).run(dark_mode=True)
-
 ###Test Information, can be changed
 
 Destination = None
