@@ -62,7 +62,7 @@ def get_days(state):
 
 def gptPromptCreation(state):
     return f"Create an itinerary for a trip to {state.Destination} for {get_days(state)+1} days.\
-        There are {state.num_adults} adults and {state.num_kids} children going.  \
+        There are {state.num_adults} adults and {state.num_kids} children going. Please keep in mind these notes (ignore if this is blank): {state.interests}.  \
           Please include times of day in the itinerary. Please include the hyperlinks to any relevant info (like restaurants) in the response. Do it in less than 100 words."
 
 
@@ -86,7 +86,6 @@ page = """
 
 Where are you going?  <|{Destination}|input|>
 
-Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|>
 
 Travellers over 18: <|{num_adults}|number|>
 
@@ -95,6 +94,8 @@ Travellers under 18: <|{num_kids}|number|>
 Trip start date: <|{start_date}|date|>
 
 Trip end date: <|{end_date}|date|>
+
+Any special interests or instructions (for example, do you have any pets?): <|{interests}|input|>
 
 <|Generate Itinerary|button|on_action=submit_scenario|>
 
@@ -106,6 +107,7 @@ Message: <|{message}|text|>
 
 Destination = None
 message = None
+interests = None
 start_date = None
 end_date = None
 num_adults=None
