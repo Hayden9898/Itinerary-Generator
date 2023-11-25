@@ -74,6 +74,9 @@ def submit_scenario(state):
 
     state.message = scenario.message.read()
 
+def on_action(state, id):
+    notify(state, "info", "Your trip will be planned shortly...")
+    invoke_long_callback(state, submit_scenario(state), [state])
 
 #Markdown representation of the UI
 
