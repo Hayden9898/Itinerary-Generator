@@ -98,8 +98,6 @@ Trip start date: <|{start_date}|date|>
 
 Trip end date: <|{end_date}|date|>
 
-Any special interests or instructions (for example, do you have any pets?): <|{interests}|input|>
-
 <|Generate Itinerary|button|on_action=submit_scenario|>
 
 Itinerary: <|{message}|text|>
