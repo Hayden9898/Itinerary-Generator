@@ -160,6 +160,7 @@ end_date = None
 num_adults=None
 num_kids=None
 bool_pets=None
+interests = None
 
 if __name__ == "__main__":
     tp.Core().run()
