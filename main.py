@@ -53,6 +53,57 @@ scenario_cfg = Config.configure_scenario("scenario", task_configs=[build_msg_tas
 def get_days(state):
     return state.calc_trip_length(state.start_date, state.end_date)
 
+def get_num_Adults(state):
+    return state.num_adults
+
+def get_num_Kids(state):
+    return state.num_kids
+ def verify_num_adults(num_adults):
+    # Initialize the verification flag to False
+    verification = False
+
+    # Continue the loop until verification is True
+    while not verification:
+        try:
+            # Attempt to convert the input to a float
+            num_adults = float(num_adults)
+
+            # Check if the input is a non-negative number
+            if num_adults >= 0:
+                # If valid, set verification to True and return the number of adults
+                verification = True
+                return num_adults
+            else:
+                # If not valid, return an error message
+                return "Please enter a non-negative number"
+        except ValueError:
+            # If the conversion to float fails, return an error message
+            return "Please enter a number"
+
+
+def verify_num_kids(num_kids):
+    # Initialize the verification flag to False
+    verification = False
+
+    # Continue the loop until verification is True
+    while not verification:
+        try:
+            # Attempt to convert the input to a float
+            num_kids = float(num_kids)
+
+            # Check if the input is a non-negative number
+            if num_kids >= 0:
+                # If valid, set verification to True and return the number of kids
+                verification = True
+                return num_kids
+            else:
+                # If not valid, return an error message
+                return "Please enter a non-negative number"
+        except ValueError:
+            # If the conversion to float fails, return an error message
+            return "Please enter a number"
+ 
+
 def submit_scenario(state):
     
     state.scenario.test_info.write(get_days(state))
