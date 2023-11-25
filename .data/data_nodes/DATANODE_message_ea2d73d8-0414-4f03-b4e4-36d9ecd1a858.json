@@ -8,11 +8,15 @@
 "parent_ids": [
 "TASK_build_msg_2720b073-12a6-4468-bdaf-46840d0a2bd6"
 ],
-"last_edit_date": "2023-11-25T14:53:39.608515",
+"last_edit_date": "2023-11-25T14:54:48.702861",
 "edits": [
 {
 "job_id": "JOB_build_msg_2c56f954-77f9-485e-9c75-9489e0fd0dcf",
 "timestamp": "2023-11-25T14:53:39.608515"
+},
+{
+"job_id": "JOB_build_msg_b31050e3-1aa5-412a-a626-51dbb979809c",
+"timestamp": "2023-11-25T14:54:48.702861"
 }
 ],
 "version": "b325e04a-9366-4e29-b15d-c07372fdf4e9",
