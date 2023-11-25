@@ -3,7 +3,7 @@ from taipy import Gui, Config, Core
 from datetime import datetime
 from openai import OpenAI
 import os
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 from taipy.gui import State, invoke_long_callback, notify
 
 load_dotenv()
@@ -63,14 +63,61 @@ def get_days(state):
 def gptPromptCreation(state):
     return f"Create an itinerary for a trip to {state.Destination} for {get_days(state)+1} days.\
         There are {state.num_adults} adults and {state.num_kids} children going.  \
-          Please include times of day in the itinerary. Please include the hyperlinks to any relevant info (like restaurants) in the response. Do it in less than 100 words."
+          Please include times of day in the itinerary. Please include the hyperlinks to any relevant info (like restaurants) in the response. Do it in less than 150 words. If the destination indicated is not a real place on earth, only output: 'Error'"
 
+def verify_num_adults(state):
+    # Initialize the verification flag to False
+    verification = False
+
+    # Continue the loop until verification is True
+    while not verification:
+        try:
+            # Attempt to convert the input to a float
+            state.num_adults = float(state.num_adults)
+
+            # Check if the input is a non-negative number
+            if state.num_adults >= 0:
+                # If valid, set verification to True and return the number of adults
+                verification = True
+                return state.num_adults
+            else:
+                # If not valid, return an error message
+                return "Please enter a non-negative number"
+        except ValueError:
+            # If the conversion to float fails, return an error message
+            return "Please enter a number"
+
+def verify_num_kids(state):
+    # Initialize the verification flag to False
+    verification = False
+
+    # Continue the loop until verification is True
+    while not verification:
+        try:
+            # Attempt to convert the input to a float
+            state.num_kids = float(state.num_kids)
+
+            # Check if the input is a non-negative number
+            if state.num_kids >= 0:
+                # If valid, set verification to True and return the number of kids
+                verification = True
+                return state.num_kids
+            else:
+                # If not valid, return an error message
+                return "Please enter a non-negative number"
+        except ValueError:
+            # If the conversion to float fails, return an error message
+            return "Please enter a number"
+ 
 
 def submit_scenario(state):
     
-    print(gptPromptCreation(state))
+    gpt_output = prompt(message=gptPromptCreation(state),model="gpt-4-1106-preview")
 
-    state.scenario.test_info.write(prompt(message=gptPromptCreation(state),model="gpt-4-1106-preview"))
+    if(gpt_output=="Error"):
+        gpt_output = "That is not a real destination, please re-enter. "
+
+    state.scenario.test_info.write(gpt_output)
 
     state.scenario.submit(wait=True)
 
@@ -88,7 +135,7 @@ Where are you going?  <|{Destination}|input|>
 
 Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|>
 
-Travellers over 18: <|{num_adults}|number|>
+Travellers over 18: <|{num_adults}|number|> 
 
 Travellers under 18: <|{num_kids}|number|>
 
@@ -98,7 +145,7 @@ Trip end date: <|{end_date}|date|>
 
 <|Generate Itinerary|button|on_action=submit_scenario|>
 
-Message: <|{message}|text|>
+Itinerary: <|{message}|text|>
 
 
 """
