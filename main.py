@@ -3,14 +3,18 @@ from taipy import Gui, Config, Core
 from datetime import datetime
 from openai import OpenAI
 import os
+from dotenv import load_dotenv, dotenv_values
+
+load_dotenv()
 
 #ChatGpt initialization
 
+Our_key =os.getenv('OPENAI_API_KEY')
 
-client = OpenAI(api_key=os.environ.get('API_Key'),
+client = OpenAI(api_key=Our_key,
                 organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
 
-    
+
 def stream(message: str, model: str):
   stream = client.chat.completions.create(
     model=model,
