@@ -17,19 +17,22 @@ def calc_trip_length(start_date, end_date):
     timediff = end_date - start_date
     return timediff.days
 
-def check_trip_length(trip_dur):
-    if trip_dur < 0 or trip_dur > 30:
-        return -1
+def check_trip_length(state):
     
-    elif trip_dur >=7:
-        return 1
+    trip_durr = calc_trip_length(state.start_date, state.end_date)
     
+    if trip_durr < 0 or trip_durr > 30:
+        return f"Please make sure that the trips End Date is not before the End Date!!\nAlso Please Restrict the trip timeline to a month."
+    
+    elif trip_durr >=7:
+        return f"Please split up the trip by weeks in order to make sure that a more accurate answer if given"
+
     else:
-        return 2
+      return
 
 
 def build_message(test_info: str):
-    return f"Your trip is {test_info} days long!"
+    return test_info
 
 input_test_info_data_node_cfg = Config.configure_data_node(id="test_info")
 message_data_node_cfg = Config.configure_data_node(id="message")
@@ -39,14 +42,14 @@ scenario_cfg = Config.configure_scenario("scenario", task_configs=[build_msg_tas
 
 def submit_scenario(state):
     
-    state.scenario.test_info.write(state.calc_trip_length(state.start_date, state.end_date))
+    state.scenario.test_info.write(state.check_trip_length(state))
 
     state.scenario.submit(wait=True)
 
     state.message = scenario.message.read()
 
 def on_action(state, id):
-    notify(state, "info", "Heavy task started...")
+    notify(state, "info", "Your trip will be planned shortly...")
     invoke_long_callback(state, submit_scenario(state), [state])
 
 #Markdown representation of the UI
@@ -78,8 +81,8 @@ Message: <|{message}|text|>
 
 Destination = None
 message = None
-start_date = datetime.now()
-end_date = datetime.now()
+start_date = None
+end_date = None
 
 
 if __name__ == "__main__":
