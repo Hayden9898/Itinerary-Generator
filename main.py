@@ -58,10 +58,12 @@ build_msg_task_cfg = Config.configure_task("build_msg", build_message, input_tes
 scenario_cfg = Config.configure_scenario("scenario", task_configs=[build_msg_task_cfg])
 
 def get_days(state):
-    return state.calc_trip_length(state.start_date, state.end_date)
+    return calc_trip_length(state.start_date, state.end_date)
 
 def gptPromptCreation(state):
-    return f"Create an itinerary for a trip to {state.Destination} for {calc_trip_length(state.start_date, state.end_date)} days.There are {state.num_adults} adults and {state.num_kids} children going. Please include times of day in the itinerary. Please include the hyperlinks to any relevant info (like restaurants) in the response. Also please restate my inputs. "
+    return f"Create an itinerary for a trip to {state.Destination} for {get_days(state)+1} days.\
+        There are {state.num_adults} adults and {state.num_kids} children going.  \
+          Please include times of day in the itinerary. Please include the hyperlinks to any relevant info (like restaurants) in the response. Do it in less than 100 words."
 
 
 def submit_scenario(state):
@@ -74,6 +76,9 @@ def submit_scenario(state):
 
     state.message = scenario.message.read()
 
+def on_action(state, id):
+    notify(state, "info", "Your trip will be planned shortly...")
+    invoke_long_callback(state, submit_scenario(state), [state])
 
 #Markdown representation of the UI
 

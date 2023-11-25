@@ -1,0 +1,26 @@
+{
+"id": "DATANODE_test_info_d231cece-5823-4139-9bce-dfb7f1f7d2d1",
+"config_id": "test_info",
+"scope": "<Scope.SCENARIO: 1>",
+"storage_type": "pickle",
+"name": null,
+"owner_id": "SCENARIO_scenario_a4b3cb7c-09b0-4b3c-95e5-36fbb74fea14",
+"parent_ids": [
+"TASK_build_msg_8824fd7f-6552-4c21-918d-6b455a00f3b3"
+],
+"last_edit_date": "2023-11-25T16:53:41.206915",
+"edits": [
+{
+"timestamp": "2023-11-25T16:53:41.206915"
+}
+],
+"version": "b325e04a-9366-4e29-b15d-c07372fdf4e9",
+"validity_days": null,
+"validity_seconds": null,
+"edit_in_progress": false,
+"editor_id": null,
+"editor_expiration_date": null,
+"data_node_properties": {
+"is_generated": true
+}
+}
