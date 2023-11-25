@@ -58,7 +58,8 @@ def get_num_Adults(state):
 
 def get_num_Kids(state):
     return state.num_kids
- def verify_num_adults(num_adults):
+
+def verify_num_adults(num_adults):
     # Initialize the verification flag to False
     verification = False
 
@@ -79,7 +80,6 @@ def get_num_Kids(state):
         except ValueError:
             # If the conversion to float fails, return an error message
             return "Please enter a number"
-
 
 def verify_num_kids(num_kids):
     # Initialize the verification flag to False
