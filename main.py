@@ -1,6 +1,9 @@
+import taipy as tp
 from taipy import Gui
 
-Gui(page ="Test Page").run(dark_mode=False)
+Gui(page="hehe").run(dark_mode=False)
+
+
 
 
 
