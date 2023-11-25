@@ -2,14 +2,15 @@ import taipy as tp
 from taipy import Gui, Config, Core
 from datetime import datetime
 from openai import OpenAI
+import os
 
 #ChatGpt initialization
 
 
-client = OpenAI(api_key="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",
+client = OpenAI(api_key=os.environ.get('API_Key'),
                 organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
 
-
+    
 def stream(message: str, model: str):
   stream = client.chat.completions.create(
     model=model,
@@ -90,7 +91,7 @@ start_date = datetime.now()
 end_date = datetime.now()
 
 
-stream(message="", model="gpt-4-1106-preview")
+stream(message="5 words randomly go", model="gpt-4-1106-preview")
 
 if __name__ == "__main__":
     tp.Core().run()
