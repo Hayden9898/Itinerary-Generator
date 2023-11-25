@@ -77,29 +77,30 @@ Planning on bringing pets: <|{bool_pets}|toggle|lov=Item 1;Item 2;Item 3|>
 
 Travellers over 18: <|{num_adults}|number|>
 
-Travellers under 18: <|{num_adults}|number|>
+Travellers under 18: <|{num_kids}|number|>
 
 Trip start date: <|{start_date}|date|>
 
 Trip end date: <|{end_date}|date|>
 
-<|submit|button|on_action=submit_scenario|>
+<|Generate Itinerary|button|on_action=submit_scenario|>
 
 Message: <|{message}|text|>
 
 
 """
-Destination = "ajit is sexy"
+Destination = None
 message = None
 start_date = datetime.now()
 end_date = datetime.now()
+num_adults=0
+num_kids=0
+bool_pets=False
 
 
-stream(message="5 words randomly go", model="gpt-4-1106-preview")
+stream(message="", model="gpt-4-1106-preview")
 
 if __name__ == "__main__":
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
     tp.Gui(page).run(dark_mode=True)
-
-print("hello")
