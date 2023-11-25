@@ -81,58 +81,62 @@ def on_action(state, id):
 #Markdown representation of the UI
 
 section_1 = """ 
-<center>
-WIZEWAY
-================
-</center>
+<center> WIZEWAY <br/>================ </center>
 """
 
 section_2 = """
 
-<center>
-###Let's start find some fun activities for your trip!!
-</center>
-
-<|layout|columns=1 3|
-<|
-###Where do you plan on going? 
+<center>Let's start find some fun activities for your trip!!</center>
+Where do you plan on going? 
 <br/>
 
-<center>
-<|{Destination}|input|>
-</center>
+<center><|{Destination}|input|></center>
+
+
+<|layout|columns=2 3|
+<|
+
+
+<br/>
+<br/>
+<br/>
+Number of Travellers over 18: 
+<center><|{num_adults}|number|></center>
+<br/>
+<br/>
+<br/>
+Trip start date: 
+<center><|{start_date}|date|></center>
 |>
 
 <|
-<center>
-Planning on bringing pets? 
-</center>
-<br/>
 
-<center>
-<|{bool_pets}|toggle|lov=Yes;No|>
-</center>
+<br/>
+<br/>
+<br/>
+Travellers under 18:
+<center> <|{num_kids}|number|></center>
+<br/>
+<br/>
+<br/>
+Trip end date: 
+<center><|{end_date}|date|>
+
 |>
 |>
 """
 
 section_3 = """
 
-Travellers over 18: <|{num_adults}|number|>
-
-Travellers under 18: <|{num_kids}|number|>
-
-Trip start date: <|{start_date}|date|>
-
-Trip end date: <|{end_date}|date|>
-
 <|Generate Itinerary|button|on_action=submit_scenario|>
 
-Message: <|{message}|text|>
-
+Here Is Your Itinerary!!: 
+<br/>
+<|{message}|text|>
 
 """
 Gui(page = section_1+section_2+section_3).run(dark_mode=True)
+
 ###Test Information, can be changed
 
 Destination = None
