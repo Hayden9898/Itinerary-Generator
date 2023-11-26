@@ -224,8 +224,17 @@ section_3 = """
 <br/>
 <center><|{message}|text|> </center>
 {: .output }
+
+<br/>
+<br/>
+
 """
 
+section_4 = """
+<|card|
+<center>WiseWay</center>
+
+"""
 ###Test Information, can be changed
 
 Destination = None
@@ -242,6 +251,6 @@ interests = None
 if __name__ == "__main__":
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
-    Gui(page = section_1+section_2+section_3, css_file="./main.css").run(stylekit=stylekit)
+    Gui(page = section_1+section_2+section_3+section_4, css_file="./main.css").run(stylekit=stylekit)
 
 #behrad's
