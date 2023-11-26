@@ -2,6 +2,7 @@ import taipy as tp
 from taipy import Gui, Config, Core
 from datetime import datetime
 from taipy.gui import State, invoke_long_callback, notify
+import magic as img
 
 ###################
     #Definitions#
@@ -57,6 +58,8 @@ def on_action(state, id):
 
 page = """
 
+<|{"wizebanner.png"}|image|>
+
 Where are you going?  <|{Destination}|input|>
 
 Planning on bringing pets: <|{bool_pets}|toggle|lov=Item 1;Item 2;Item 3|>
@@ -89,5 +92,4 @@ if __name__ == "__main__":
     
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
-    tp.Gui.add_page("Baby", page, style = 'rootbeer')
     tp.Gui(page).run(dark_mode=True)
