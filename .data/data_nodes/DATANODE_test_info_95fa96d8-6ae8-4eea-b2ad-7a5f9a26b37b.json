@@ -1,17 +1,17 @@
 {
-"id": "DATANODE_test_info_eeebec0f-ee2e-4962-bb26-ec4b7327ced3",
+"id": "DATANODE_test_info_95fa96d8-6ae8-4eea-b2ad-7a5f9a26b37b",
 "config_id": "test_info",
 "scope": "<Scope.SCENARIO: 1>",
 "storage_type": "pickle",
 "name": null,
-"owner_id": "SCENARIO_scenario_3f9ccc6b-c728-46e2-9e0e-319a1683ba2f",
+"owner_id": "SCENARIO_scenario_33695308-618b-4f52-ae78-4301a883bd84",
 "parent_ids": [
-"TASK_build_msg_73ed0587-16b8-46fa-84d2-031c3acba1c9"
+"TASK_build_msg_3c24939c-0bdf-4b08-a518-7ee6c6c47076"
 ],
-"last_edit_date": "2023-11-26T02:52:00.994478",
+"last_edit_date": "2023-11-26T03:03:01.961767",
 "edits": [
 {
-"timestamp": "2023-11-26T02:52:00.994478"
+"timestamp": "2023-11-26T03:03:01.961767"
 }
 ],
 "version": "b325e04a-9366-4e29-b15d-c07372fdf4e9",
