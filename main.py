@@ -6,25 +6,30 @@ import os
 from dotenv import load_dotenv, dotenv_values
 
 load_dotenv()
+stylekit = {
+  "color_primary": "##000000",
+  "color_secondary": "#C0FFE",
+}
 
+# Gui.run(stylekit=stylekit)
 #ChatGpt initialization
 
-Our_key =os.getenv('OPENAI_API_KEY')
+# Our_key =os.getenv('OPENAI_API_KEY')
 
-client = OpenAI(api_key=Our_key,
-                organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
+# client = OpenAI(api_key=Our_key,
+#                 organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
 
 
-def prompt(message: str, model: str):
+# def prompt(message: str, model: str):
 
-    completion = client.chat.completions.create(
-    model=model,
-    messages=[
-        {"role": "system", "content": "You are an AI Itinerary planner assistant. You will plan itineraries based on input given to you, and you scan the latest events/attractions for the itinerary."},
-        {"role": "user", "content": message}
-    ]
-    )
-    print(completion.choices[0].message.content)
+#     completion = client.chat.completions.create(
+#     model=model,
+#     messages=[
+#         {"role": "system", "content": "You are an AI Itinerary planner assistant. You will plan itineraries based on input given to you, and you scan the latest events/attractions for the itinerary."},
+#         {"role": "user", "content": message}
+#     ]
+#     )
+#     print(completion.choices[0].message.content)
 
     
 
@@ -62,7 +67,7 @@ def get_days(state):
 def gptPromptCreation():
 
     return f"Create an itinerary for a trip to {Destination} for 2 days.\
-          There are {num_adults} adults and {num_kids} children going. Along with places to eat, and good photo taking opportunities. 
+          There are {num_adults} adults and {num_kids} children going. Along with places to eat, and good photo taking opportunities. \
           Please include times of day in the itinerary. Please include the links to any relevant info (like restaurants) in the response. "
 
 
@@ -76,47 +81,25 @@ def submit_scenario(state):
 
 #Markdown representation of the UI
 
-section_1 = """ 
-<center>WIZEWAY</center>
-================
-"""
-section_2 = """
+page = """
+<
+<center>Where are you going?  <|{Destination}|input|></center>
 
-<center>###Let's start find some fun activities for your trip!!</center>
+<center>Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|></center>
 
-<|layout|columns = 1 3|
+<center>Travellers over 18: <|{num_adults}|number|></center>
 
-<|
-<center> Where do you plan on going? </center> </br>
-<center<|{Destination}|input|></center>
-|>
+<center>Travellers under 18: <|{num_kids}|number|></center>
 
-<|
-<center>
-Planning on bringing pets: 
-<center></br>
-</center>
-<|{bool_pets}|toggle|lov=Yes;No|>
-</center>
-|>|>"""
+<center>Trip start date: <|{start_date}|date|></center>
 
-section_3 = """
+<center>Trip end date: <|{end_date}|date|></center>
 
-Travellers over 18: <|{num_adults}|number|>
+<center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
-Travellers under 18: <|{num_kids}|number|>
-
-Trip start date: <|{start_date}|date|>
-
-Trip end date: <|{end_date}|date|>
-
-<|Generate Itinerary|button|on_action=submit_scenario|>
-
-Message: <|{message}|text|>
-
+<center>Message: <|{message}|text|></center>
 
 """
-Gui(page = section_1+section_2+section_3).run(dark_mode=True)
 Destination = "italy"
 message = None
 start_date = datetime.now()
@@ -125,10 +108,14 @@ num_adults=2
 num_kids=2
 bool_pets=None
 
-prompt(message=gptPromptCreation(),model="gpt-4-1106-preview" )
+# prompt(message=gptPromptCreation(),model="gpt-4-1106-preview" )
 
 
+# if __name__ == "__main__":
+#     tp.Core().run()
+#     scenario = tp.create_scenario(scenario_cfg)
+#     tp.Gui(page).run(dark_mode=True)
 if __name__ == "__main__":
-    tp.Core().run()
+    gui = Gui(page)
     scenario = tp.create_scenario(scenario_cfg)
-    tp.Gui(page).run(dark_mode=True)
+    gui.run(dark_mode=False)
