@@ -42,6 +42,8 @@ stylekit = {
 ###################
     #Definitions#
 ###################
+def stringToList(s, d):
+    return [d+i for i in s.split(d) if i]
 
 def calc_trip_length(start_date, end_date):
     
@@ -102,7 +104,14 @@ section_2 ="""
 |>
 
 """
-section_3 = """
+
+section_3 ="""
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+
+"""
+section_4 = """
 <|card|
 <h3><center>Let's start find some fun activities for your trip!!</center></h3>
 <br/>
@@ -140,13 +149,29 @@ section_3 = """
 |>
 """
 
-section_4 = """
+section_5 = """
 -------------------------------------------------------------------------------------------------------------------------------
 <center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
 <center>Here Is Your Itinerary!!:</center> 
 <br/>
 <center><|{message}|text|></center>
+
+"""
+section_6 ="""
+<|
+ 
+
+|>
+<|
+<|card|
+<center>WiseWay</center>
+|>
+|>
+<|
+
+
+|>
 
 """
 ###Test Information, can be changed
@@ -169,6 +194,6 @@ bool_pets=None
 #     tp.Gui(page).run(dark_mode=True)
 
 if __name__ == "__main__":
-    gui = Gui(page = section_1+section_2+section_3+section_4)
+    gui = Gui(page = section_1+section_2+section_3+section_4+section_5+section_6,css_fil="./styles.css")
     scenario = tp.create_scenario(scenario_cfg)
     gui.run(stylekit=stylekit)
