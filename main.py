@@ -4,7 +4,7 @@ from datetime import datetime
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-from taipy.gui import State, invoke_long_callback, notify, Markdown
+from taipy.gui import State, invoke_long_callback, notify, Markdown, Html
 
 load_dotenv()
 
@@ -41,6 +41,7 @@ def get_formatted_itinerary(itinerary):
     days = itinerary.split('**')
 
     # Iterate through each day and add content to the formatted string
+    
     for day in days:
         if day.strip():  # Check if the day is not empty
             # Split the day into activities
@@ -53,7 +54,7 @@ def get_formatted_itinerary(itinerary):
             for activity in activities[1:]:
                 formatted_str += f"  - {activity.strip()}\n"
 
-    return formatted_str
+    return Markdown(formatted_str)
 
 def calc_trip_length(start_date, end_date):
     
@@ -133,13 +134,6 @@ def verify_num_kids(state):
  
 
 
-#making a table
-x_range = range(1,5,1)
-data = {
-    "Days": x_range,
-
-    "Activities": ["placeholder" for x in x_range],
-}
 
 def submit_scenario(state):
     
@@ -165,20 +159,18 @@ def on_action(state, id):
 #Markdown representation of the UI
 
 stylekit = {
-  "color_primary": "#b3465f",
-  "color_secondary": "#b3465f",
-  "color_background_dark": "#525151",
-  "color_background_light": "#d4cdcd", 
-  "color_paper_dark": "#b3465f"
+  "color_primary": "#d48002",
+  "color_secondary": "#d48002",
+  "color_background": "#690f85",
+  "color_paper_dark": "#690f85"
   
 }
 
 
 section_1 = """ 
 <br/>
-<center> <|{"wizebannerwhitepng.png"}|image|> </center>
+<center> <|{"wizebanner_big.png"}|image|> </center>
 
-###<center>WIZEWAY.AI</center>
 """
 
 section_2 = """
@@ -230,8 +222,6 @@ section_3 = """
 
 <br/>
 <center><|{message}|text|></center>
-
-<center> <|{data}|table|> </center>
 
 """
 
