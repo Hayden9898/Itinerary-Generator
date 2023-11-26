@@ -133,7 +133,14 @@ def verify_num_kids(state):
  
 
 
- 
+#making a table
+x_range = range(1,5,1)
+data = {
+    "Days": x_range,
+
+    "Activities": ["placeholder" for x in x_range],
+}
+
 def submit_scenario(state):
     
     gpt_output = prompt(message=gptPromptCreation(state),model="gpt-4-1106-preview")
@@ -223,6 +230,8 @@ section_3 = """
 
 <br/>
 <center><|{message}|text|></center>
+
+<center> <|{data}|table|> </center>
 
 """
 
