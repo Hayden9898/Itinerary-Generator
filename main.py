@@ -231,6 +231,23 @@ section_3 = """
 """
 
 section_4 = """
+<|layout|columns=5 3 5|
+<|
+
+<center> <|{ADD PICTURE}|image|> </center>
+|>
+
+<|<|card|
+<center>WiseWay</center>
+|>
+|>
+
+<|
+<center> <|{ADD PICTURE}|image|> </center>
+|>
+|>
+
+
 <|card|
 <center>WiseWay</center>
 
