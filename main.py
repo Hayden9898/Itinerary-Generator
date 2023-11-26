@@ -2,53 +2,75 @@ import taipy as tp
 from taipy import Gui, Config, Core
 from datetime import datetime
 from openai import OpenAI
+import os
+from dotenv import load_dotenv
+from taipy.gui import State, invoke_long_callback, notify, Markdown, Html
+
+load_dotenv()
 
 #ChatGpt initialization
 
+Our_key =os.getenv('OPENAI_API_KEY')
+
+client = OpenAI(api_key=Our_key,
+                organization="org-XFRiKEA3bXXTSifH2T4XNFwX")
 
 
+def prompt(message: str, model: str):
 
-
-def stream(message: str, model: str):
-  stream = client.chat.completions.create(
+    completion = client.chat.completions.create(
     model=model,
-    messages = [
-      {"role": "system", "content": "You are an AI assistant. You will answer questions, and you are an expert writer."},
-      {"role": "user", "content": message},
-    ],
-    stream=True,
-  )
-  for part in stream:
-    print(part.choices[0].delta.content or "", end="")
+    messages=[
+        {"role": "system", "content": "You are an AI Itinerary planner assistant. You will plan itineraries based on input given to you, and you scan the latest events/attractions for the itinerary."},
+        {"role": "user", "content": message}
+    ]
+    )
+    return (completion.choices[0].message.content)
+
 
 
 ###################
     #Definitions#
 ###################
 
-def calc_trip_length(state):
+
+def get_formatted_itinerary(state, start_date, end_date):
+    numberDays = calc_trip_length(start_date, end_date)
+    formatted_str = ""
+
+    for i in range(numberDays):
+        DayCount = i + 1
+        formatted_str += gptPromptCreation(state, DayCount)
+
+    return Markdown(formatted_str)
+
+def gptPromptCreation(state, day_count):
+    return f"Create an itinerary for day {day_count} of a trip to {state.Destination}. \
+        There are {state.num_adults} adults and {state.num_kids} children going. \
+        Please keep in mind these notes: {state.interests}. \
+        Please include times of day in the itinerary. \
+        Please include the hyperlinks to any relevant info (like restaurants) in the response. \
+        Do it in less than 150 words. If the destination indicated is not a real place on earth, only output: 'Error'\n\n"
+
+
+def calc_trip_length(start_date, end_date):
     
-    timediff = state.end_date - state.start_date
+    timediff = end_date - start_date
     return timediff.days
 
-def check_trip_length(state):
+def check_trip_length(trip_dur):
+    if trip_dur < 0 or trip_dur > 30:
+        return -1
     
-    trip_durr = calc_trip_length(state.start_date, state.end_date)
+    elif trip_dur >=7:
+        return 1
     
-    if trip_durr < 0 or trip_durr > 30:
-        return f"Please make sure that the trips End Date is not before the End Date!!\nAlso Please Restrict the trip timeline to a month."
-    
-    elif trip_durr >=7:
-        return f"Please split up the trip by weeks in order to make sure that a more accurate answer if given"
-
     else:
-      return
-   
-
+        return 2
 
 
 def build_message(test_info: str):
-    return f"Your trip is {test_info} days long!"
+    return f"{test_info}"
 
 input_test_info_data_node_cfg = Config.configure_data_node(id="test_info")
 message_data_node_cfg = Config.configure_data_node(id="message")
@@ -56,13 +78,7 @@ build_msg_task_cfg = Config.configure_task("build_msg", build_message, input_tes
 scenario_cfg = Config.configure_scenario("scenario", task_configs=[build_msg_task_cfg])
 
 def get_days(state):
-    return state.calc_trip_length(state.start_date, state.end_date)
-
-def get_num_Adults(state):
-    return state.num_adults
-
-def get_num_Kids(state):
-    return state.num_kids
+    return calc_trip_length(state.start_date, state.end_date)
 
 def verify_num_adults(state):
     # Initialize the verification flag to False
@@ -109,59 +125,112 @@ def verify_num_kids(state):
             return "Please enter a number"
  
 
+
+
 def submit_scenario(state):
     
-    state.scenario.test_info.write(get_days(state))
+    gpt_output = prompt(message=gptPromptCreation(state),model="gpt-4-1106-preview")
+
+    if(gpt_output=="Error"):
+        gpt_output = "That is not a real destination, please re-enter. "
+    
+    state.scenario.test_info.write(gpt_output)
 
     state.scenario.submit(wait=True)
 
     state.message = scenario.message.read()
 
+def on_action(state, id):
+    notify(state, "info", "Error: Please Enter Values")
+    invoke_long_callback(state, submit_scenario(state), [state])
 
-def gptPromptCreation(state):
-  verify_num_adults(state.num_adults)
-  verify_num_kids(state.num_kids)
-  check_trip_length(state.start_date, state.end_date)
-  
 
-  
-  return f"Create an itinerary for a trip to {state.Destination} for {calc_trip_length(state.start_date, state.end_date)} days.\
-          There are {state.num_adults} adults and {state.num_kids} children going. Along with places to eat, and good photo taking opportunities."
+
+
 
 #Markdown representation of the UI
 
+stylekit = {
+  "color_primary": "#d48002",
+  "color_secondary": "#d48002",
+  "color_background": "#690f85",
+  "color_paper_dark": "#690f85"
+  
+}
 
-page = """
 
-Where are you going?  <|{Destination}|input|>
-
-Planning on bringing pets: <|{bool_pets}|toggle|lov=Item 1;Item 2;Item 3|>
-
-Travellers over 18: <|{num_adults}|number|>
-
-Travellers under 18: <|{num_kids}|number|>
-
-Trip start date: <|{start_date}|date|>
-
-Trip end date: <|{end_date}|date|>
-
-<|submit|button|on_action=submit_scenario|>
-
-Message: <|{message}|text|>
-
+section_1 = """ 
+<br/>
+<center> <|{"wizebanner_big.png"}|image|> </center>
 
 """
-Destination = "ajit is sexy"
+
+section_2 = """
+
+<center>Let's find some fun activities for your trip!!</center>
+<br/>
+<center>Where do you plan on going?</center> 
+<br/>
+
+<center><|{Destination}|input|></center>
+
+
+<|layout|columns=5 5|
+<|
+
+
+
+<br/>
+<center>Number of Travellers over 18:</center>
+<center><|{num_adults}|number|></center>
+
+<br/>
+<center>Trip start date:</center> 
+<center><|{start_date}|date|></center>
+|>
+
+<|
+
+<br/>
+<center>Travellers under 18:</center>
+<center><|{num_kids}|number|></center>
+<br/>
+<center>Trip end date:</center> 
+<center><|{end_date}|date|></center>
+
+|>
+|>
+"""
+
+section_3 = """
+
+<center>Do you have any extra interests/requests?</center> 
+<br/>
+<center><|{interests}|input|></center>
+<br/>
+
+
+<center><|Generate Itinerary|button|on_action=submit_scenario|></center>
+
+<br/>
+<center><|{message}|text|></center>
+
+"""
+
+###Test Information, can be changed
+
+Destination = None
 message = None
-start_date = datetime.now()
-end_date = datetime.now()
-num_adults = 0
-num_kids = 0 
+start_date = None
+end_date = None
+num_adults=None
+num_kids=None
+bool_pets=None
+interests = None
 
 
-stream(message="", model="gpt-4-1106-preview")
 
 if __name__ == "__main__":
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
-    tp.Gui(page).run(dark_mode=True)
+    Gui(page = section_1+section_2+section_3).run(stylekit=stylekit)
