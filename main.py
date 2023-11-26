@@ -4,7 +4,7 @@ from datetime import datetime
 from openai import OpenAI
 import os
 from dotenv import load_dotenv, dotenv_values
-
+import magic as img
 load_dotenv()
 stylekit = {
   "color_primary": "##000000",
@@ -83,6 +83,7 @@ def submit_scenario(state):
 
 page = """
 <
+<center> <|{"wizebanner.png"}|image|> </center>
 <center>Where are you going?  <|{Destination}|input|></center>
 
 <center>Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|></center>
