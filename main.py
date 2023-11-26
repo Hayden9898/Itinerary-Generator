@@ -81,59 +81,55 @@ def on_action(state, id):
 #Markdown representation of the UI
 
 section_1 = """ 
-<center>WIZEWAY <br/>================</center>
+###<center>WIZEWAY</center>
 """
 
 section_2 = """
 
 <center>Let's start find some fun activities for your trip!!</center>
-Where do you plan on going? 
+<br/>
+<center>Where do you plan on going?</center> 
 <br/>
 
 <center><|{Destination}|input|></center>
 
-<|layout|columns=2 3|
+
+<|layout|columns=5 5|
 <|
 
+
+
 <br/>
-<br/>
-<br/>
-Number of Travellers over 18: 
+<center>Number of Travellers over 18:</center>
 <center><|{num_adults}|number|></center>
+
 <br/>
-<br/>
-<br/>
-Trip start date: 
+<center>Trip start date:</center> 
 <center><|{start_date}|date|></center>
 |>
 
 <|
 
 <br/>
-<br/>
-<br/>
-Travellers under 18:
+<center>Travellers under 18:</center>
 <center><|{num_kids}|number|></center>
 <br/>
-<br/>
-<br/>
-Trip end date: 
+<center>Trip end date:</center> 
 <center><|{end_date}|date|></center>
+
 |>
 |>
 """
 
 section_3 = """
 
-<|Generate Itinerary|button|on_action=submit_scenario|>
+<center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
-Here Is Your Itinerary!!: 
+<center>Here Is Your Itinerary!!:</center> 
 <br/>
-<|{message}|text|>
+<center><|{message}|text|></center>
 
 """
-
-
 ###Test Information, can be changed
 
 Destination = None
