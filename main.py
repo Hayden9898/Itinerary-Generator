@@ -5,11 +5,17 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv, dotenv_values
 import magic as img
+
 load_dotenv()
 stylekit = {
-  "color_primary": "##000000",
-  "color_secondary": "#C0FFE",
+  "color_primary": "#d4cdcd",
+  "color_secondary": "#b3465f",
+  "color_background_dark": "#525151",
+  "color_background_light": "#b3465f",
+  "color_paper_dark": "#b3465f"
+
 }
+
 
 # Gui.run(stylekit=stylekit)
 #ChatGpt initialization
@@ -82,21 +88,26 @@ def submit_scenario(state):
 #Markdown representation of the UI
 
 section_1 = """ 
-<center> <|{"wizebanner.png"}|image|> </center>
+<center><|{"wizebanner.png"}|image|></center>
 """
 section_2 ="""
 <|card|
-<center>Why should you choose wise way? IF you are short on time and you want t o go on vacation, leave the rest to us.</center> 
+<center><h5>What is Wize Way?</h5></center> 
+<center>Wize Way is an artificial intelligence which generates</center>
+<center>itineraries which includes your preferences, aswell as</center>
+<center>special requests which caters to every users specifications.</center>
+<center><h5>The Goal of Wize Way</h5></center> 
+<center>To efficiently plan and properly interperate any users </center>
+<center>preferences and plan their vacation without all the excess labour. </center>
 |>
 
 """
 section_3 = """
 <|card|
-<center>Let's start find some fun activities for your trip!!</center>
+<h3><center>Let's start find some fun activities for your trip!!</center></h3>
 <br/>
-<center>Where do you plan on going?</center> 
+<h5><center>Where do you plan on going?</center></h5>
 <br/>
-
 <center><|{Destination}|input|></center>
 
 
@@ -106,11 +117,11 @@ section_3 = """
 
 
 <br/>
-<center>Number of Travellers over 18:</center>
+<h5><center>Number of Travellers over 18:</center></h5>
 <center><|{num_adults}|number|></center>
 
 <br/>
-<center>Trip start date:</center> 
+<h5><center>Trip start date:</center></h5> 
 <center><|{start_date}|date|></center>
 |>
 |>
@@ -118,18 +129,19 @@ section_3 = """
 <|
 
 <br/>
-<center>Travellers under 18:</center>
+<h5><center>Travellers under 18:</center></h5>
 <center><|{num_kids}|number|></center>
 <br/>
-<center>Trip end date:</center> 
+<h5><center>Trip end date:</center></h5> 
 <center><|{end_date}|date|></center>
+<h5>Do you have any special interests? <|{interests}|input|></h5>
 
 |>
 |>
 """
 
 section_4 = """
-
+-------------------------------------------------------------------------------------------------------------------------------
 <center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
 <center>Here Is Your Itinerary!!:</center> 
@@ -137,6 +149,9 @@ section_4 = """
 <center><|{message}|text|></center>
 
 """
+###Test Information, can be changed
+
+
 Destination = "italy"
 message = None
 start_date = datetime.now()
@@ -152,7 +167,8 @@ bool_pets=None
 #     tp.Core().run()
 #     scenario = tp.create_scenario(scenario_cfg)
 #     tp.Gui(page).run(dark_mode=True)
+
 if __name__ == "__main__":
     gui = Gui(page = section_1+section_2+section_3+section_4)
     scenario = tp.create_scenario(scenario_cfg)
-    gui.run(dark_mode=False)
+    gui.run(stylekit=stylekit)
