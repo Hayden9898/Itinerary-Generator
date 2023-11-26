@@ -117,6 +117,7 @@ def submit_scenario(state):
     if(gpt_output=="Error"):
         gpt_output = "That is not a real destination, please re-enter. "
 
+
     state.scenario.test_info.write(gpt_output)
 
     state.scenario.submit(wait=True)
