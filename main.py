@@ -81,7 +81,7 @@ def on_action(state, id):
 #Markdown representation of the UI
 
 section_1 = """ 
-<center> WIZEWAY <br/>================ </center>
+<center>WIZEWAY <br/>================</center>
 """
 
 section_2 = """
@@ -92,10 +92,8 @@ Where do you plan on going?
 
 <center><|{Destination}|input|></center>
 
-
 <|layout|columns=2 3|
 <|
-
 
 <br/>
 <br/>
@@ -115,13 +113,12 @@ Trip start date:
 <br/>
 <br/>
 Travellers under 18:
-<center> <|{num_kids}|number|></center>
+<center><|{num_kids}|number|></center>
 <br/>
 <br/>
 <br/>
 Trip end date: 
-<center><|{end_date}|date|>
-
+<center><|{end_date}|date|></center>
 |>
 |>
 """
@@ -135,7 +132,7 @@ Here Is Your Itinerary!!:
 <|{message}|text|>
 
 """
-Gui(page = section_1+section_2+section_3).run(dark_mode=True)
+
 
 ###Test Information, can be changed
 
@@ -151,3 +148,4 @@ if __name__ == "__main__":
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
     tp.Gui(page).run(dark_mode=True)
+  Gui(page = section_1+section_2+section_3).run(dark_mode=True)
