@@ -234,7 +234,7 @@ section_3 = """
 
 section_4 = """
 
-<|layout|columns=5  5|
+<|layout|columns=5 3 5|
 <|
 
 <center> <|{"wizecabin_color.png"}|image|> </center>
