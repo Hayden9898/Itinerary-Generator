@@ -81,24 +81,60 @@ def submit_scenario(state):
 
 #Markdown representation of the UI
 
-page = """
-<
+section_1 = """ 
 <center> <|{"wizebanner.png"}|image|> </center>
-<center>Where are you going?  <|{Destination}|input|></center>
+"""
+section_2 ="""
+<|card|
+<center>Why should you choose wise way? IF you are short on time and you want t o go on vacation, leave the rest to us.</center> 
+|>
 
-<center>Planning on bringing pets: <|{bool_pets}|toggle|lov=Yes;No|></center>
+"""
+section_3 = """
+<|card|
+<center>Let's start find some fun activities for your trip!!</center>
+<br/>
+<center>Where do you plan on going?</center> 
+<br/>
 
-<center>Travellers over 18: <|{num_adults}|number|></center>
+<center><|{Destination}|input|></center>
 
-<center>Travellers under 18: <|{num_kids}|number|></center>
 
-<center>Trip start date: <|{start_date}|date|></center>
+<|layout|columns=5 5|
+<|
 
-<center>Trip end date: <|{end_date}|date|></center>
+
+
+<br/>
+<center>Number of Travellers over 18:</center>
+<center><|{num_adults}|number|></center>
+
+<br/>
+<center>Trip start date:</center> 
+<center><|{start_date}|date|></center>
+|>
+|>
+
+<|
+
+<br/>
+<center>Travellers under 18:</center>
+<center><|{num_kids}|number|></center>
+<br/>
+<center>Trip end date:</center> 
+<center><|{end_date}|date|></center>
+
+|>
+|>
+"""
+
+section_4 = """
 
 <center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
-<center>Message: <|{message}|text|></center>
+<center>Here Is Your Itinerary!!:</center> 
+<br/>
+<center><|{message}|text|></center>
 
 """
 Destination = "italy"
@@ -117,6 +153,6 @@ bool_pets=None
 #     scenario = tp.create_scenario(scenario_cfg)
 #     tp.Gui(page).run(dark_mode=True)
 if __name__ == "__main__":
-    gui = Gui(page)
+    gui = Gui(page = section_1+section_2+section_3+section_4)
     scenario = tp.create_scenario(scenario_cfg)
     gui.run(dark_mode=False)
