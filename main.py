@@ -78,7 +78,16 @@ def on_action(state, id):
     notify(state, "info", "Your trip will be planned shortly...")
     invoke_long_callback(state, submit_scenario(state), [state])
 
-#Markdown representation of the UI
+
+stylekit = {
+  "color_primary": "#b3465f",
+  "color_secondary": "#b3465f",
+  "color_background_dark": "#525151",
+  "color_background_light": "#d4cdcd", 
+  "color_paper_dark": "#b3465f"
+  
+}
+
 
 section_1 = """ 
 ###<center>WIZEWAY</center>
