@@ -4,7 +4,7 @@ from datetime import datetime
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-from taipy.gui import State, invoke_long_callback, notify
+from taipy.gui import State, invoke_long_callback, notify, Markdown
 
 load_dotenv()
 
@@ -33,7 +33,6 @@ def prompt(message: str, model: str):
     #Definitions#
 ###################
 
-str = "**Day 1: Arrival and Duomo Exploration** - 9:00 AM: Arrive in Milan. Settle into the hotel. - 1:00 PM: Visit the Duomo di Milano (http://www.duomomilano.it/en/). - 4:00 PM: Walk and shop at Galleria Vittorio Emanuele II. - 8:00 PM: Dinner at Giacomo Arengario (https://www.giacomoarengario.com/). **Day 2: Arts and Science** - 10:00 AM: Explore Pinacoteca di Brera (http://pinacotecabrera.org/). - 1:00 PM: Lunch at Nabucco (http://www.nabucco.it/). - 3:00 PM: Visit Leonardo da Vinci's Last Supper (https://cenacolovinciano.vivaticket.it/). - 5:00 PM: Playtime at Parco Sempione. **Day 3: Modern Milan and Departure** - 10:00 AM: Visit the Museo del Novecento (http://www.museodelnovecento.org/). - 12:00 PM: Lunch at Miscusi (https://www.miscusi.com/). - 2:00 PM: Shopping at Corso Buenos Aires. - 5:00 PM: Departure from Milan. Please book tickets and make restaurant reservations in advance."
 
 def get_formatted_itinerary(itinerary):
     formatted_str = ""
@@ -133,6 +132,8 @@ def verify_num_kids(state):
             return "Please enter a number"
  
 
+
+ 
 def submit_scenario(state):
     
     gpt_output = prompt(message=gptPromptCreation(state),model="gpt-4-1106-preview")
@@ -140,7 +141,7 @@ def submit_scenario(state):
     if(gpt_output=="Error"):
         gpt_output = "That is not a real destination, please re-enter. "
     
-    state.scenario.test_info.write("dababy <br/> dababy")
+    state.scenario.test_info.write(gpt_output)
 
     state.scenario.submit(wait=True)
 
@@ -149,6 +150,10 @@ def submit_scenario(state):
 def on_action(state, id):
     notify(state, "info", "Error: Please Enter Values")
     invoke_long_callback(state, submit_scenario(state), [state])
+
+
+
+
 
 #Markdown representation of the UI
 
@@ -163,7 +168,10 @@ stylekit = {
 
 
 section_1 = """ 
-###<center>WIZEWAY</center>
+<br/>
+<center> <|{"wizebannerwhitepng.png"}|image|> </center>
+
+###<center>WIZEWAY.AI</center>
 """
 
 section_2 = """
@@ -205,12 +213,19 @@ section_2 = """
 
 section_3 = """
 
+<center>Do you have any extra interests/requests?</center> 
+<br/>
+<center><|{interests}|input|></center>
+<br/>
+
+
 <center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
-<center>Here Is Your Itinerary!!:</center> 
 <br/>
 <center><|{message}|text|></center>
+
 """
+
 ###Test Information, can be changed
 
 Destination = None
