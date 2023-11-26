@@ -87,21 +87,21 @@ def submit_scenario(state):
 
 #Markdown representation of the UI
 
+
 section_1 = """ 
-<center><|{"wizebanner.png"}|image|></center>
-"""
-section_2 ="""
-<|card|
-<center>Why should you choose wise way? IF you are short on time and you want t o go on vacation, leave the rest to us.</center> 
-|>
+<br/>
+<center> <|{"wizebannerwhitepng.png"}|image|> </center>
+
 
 """
-section_3 = """
-<|card|
-<h3><center>Let's start find some fun activities for your trip!!</center></h3>
+
+section_2 = """
+
+<center>Let's find some fun activities for your trip!!</center>
 <br/>
-<h5><center>Where do you plan on going?</center></h5>
+<h4><center>Where do you plan on going?</center></h4> 
 <br/>
+
 <center><|{Destination}|input|></center>
 
 
@@ -111,35 +111,41 @@ section_3 = """
 
 
 <br/>
-<h5><center>Number of Travellers over 18:</center></h5>
+<h4><center>Number of Travellers over 18:</center></h4>
 <center><|{num_adults}|number|></center>
 
 <br/>
-<h5><center>Trip start date:</center></h5> 
+<h4><center>Trip start date:</center></h4>
 <center><|{start_date}|date|></center>
-|>
 |>
 
 <|
 
 <br/>
-<h5><center>Travellers under 18:</center></h5>
+<h4><center>Travellers under 18:</center></h4>
 <center><|{num_kids}|number|></center>
 <br/>
-<h5><center>Trip end date:</center></h5> 
+<h3><center>Trip end date:</center></h3> 
 <center><|{end_date}|date|></center>
 
 |>
 |>
 """
 
-section_4 = """
--------------------------------------------------------------------------------------------------------------------------------
+section_3 = """
+
+<h4><center>Do you have any extra interests/requests?</center></h4>
+<br/>
+<center><|{interests}|input|></center>
+<br/>
+
+
 <center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
-<center>Here Is Your Itinerary!!:</center> 
 <br/>
 <center><|{message}|text|></center>
+
+<center> <|{data}|table|> </center>
 
 """
 ###Test Information, can be changed
