@@ -54,7 +54,7 @@ def get_formatted_itinerary(itinerary):
             for activity in activities[1:]:
                 formatted_str += f"  - {activity.strip()}\n"
 
-    return Markdown(formatted_str)
+    return formatted_str
 
 def calc_trip_length(start_date, end_date):
     
@@ -86,7 +86,7 @@ def get_days(state):
 def gptPromptCreation(state):
     return f"Create an itinerary for a trip to {state.Destination} for {get_days(state)+1} days.\
         There are {state.num_adults} adults and {state.num_kids} children going. Please keep in mind these notes: {state.interests}. \
-          Please include times of day in the itinerary. Do it in less than 150 words. If the destination indicated is not a real place on earth, only output: 'Error'"
+          Please include times of day in the itinerary. Do it in less than 150 words. If the destination indicated is not a real place on earth, only output: 'Error'. After every completed day add 2 new lines (enters)."
 
 def verify_num_adults(state):
     # Initialize the verification flag to False
@@ -175,7 +175,8 @@ section_1 = """
 
 section_2 = """
 
-<center>Let's find some fun activities for your trip!!</center>
+<center>Planning made easy™ </center>
+<br/>
 <br/>
 <center>Where do you plan on going?</center> 
 <br/>
@@ -221,8 +222,8 @@ section_3 = """
 <center><|Generate Itinerary|button|on_action=submit_scenario|></center>
 
 <br/>
-<center><|{message}|text|></center>
-
+<center><|{message}|text|> </center>
+{: .output }
 """
 
 ###Test Information, can be changed
@@ -241,6 +242,6 @@ interests = None
 if __name__ == "__main__":
     tp.Core().run()
     scenario = tp.create_scenario(scenario_cfg)
-    Gui(page = section_1+section_2+section_3).run(stylekit=stylekit)
+    Gui(page = section_1+section_2+section_3, css_file="./main.css").run(stylekit=stylekit)
 
 #behrad's
