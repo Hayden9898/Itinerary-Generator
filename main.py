@@ -228,9 +228,26 @@ section_3 = """
 <br/>
 <br/>
 
+
+
 """
 
 section_4 = """
+
+<|layout|columns=5  5|
+<|
+
+<center> <|{"wizecabin_color.png"}|image|> </center>
+|>
+
+
+<|
+<center> <|{"campfirecolor.png"}|image|> </center>
+|>
+
+|>
+
+
 <|card|
 <center>WiseWay</center>
 
